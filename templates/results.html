@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Recommendations</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+        }
+        .recipe-card {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .recipe-header {
+            background-color: #f8f9fa;
+            padding: 10px 15px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+        .recipe-body {
+            padding: 15px;
+            display: none;
+        }
+        .recipe-body.active {
+            display: block;
+        }
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Recipe Recommendations</h1>
+        <p class="text-center mb-4">Results for: <strong>{{ query }}</strong></p>
+        
+        <div class="mb-3">
+            <a href="/" class="btn btn-outline-secondary">Back to Search</a>
+        </div>
+        
+        <div class="recommendations">
+            {% for rec in recommendations %}
+            <div class="recipe-card">
+                <div class="recipe-header" onclick="toggleRecipe('recipe-{{ rec.index }}')">
+                    <h5 class="mb-0">{{ rec.index }}. {{ rec.name }} ({{ rec.score_label }}: {{ "%.2f"|format(rec.score) }})</h5>
+                </div>
+                <div id="recipe-{{ rec.index }}" class="recipe-body">
+                    <h6>Ingredients</h6>
+                    <p>{{ rec.ingredients }}</p>
+                    
+                    <h6>Directions</h6>
+                    <p>{{ rec.directions }}</p>
+                    
+                    <h6>Cuisine</h6>
+                    <p>{{ rec.cuisine }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="footer container">
+        <p>Recipe Recommendation System using TF-IDF, KNN, and Neural Networks</p>
+    </div>
+    
+    <script>
+        function toggleRecipe(id) {
+            const element = document.getElementById(id);
+            element.classList.toggle('active');
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
